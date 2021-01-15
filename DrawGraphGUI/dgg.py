@@ -12,6 +12,7 @@ window = tkinter.Tk()
 window.title('DrawGraph ' + str(version))
 window.geometry(size_str)
 window.resizable(0, 0)
+window.iconphoto(False, tkinter.PhotoImage(file='dgg.png'))
 
 ################################
 PathLbl = tkinter.Label(window, text='Путь к файлу')
@@ -101,13 +102,9 @@ def ConstructGraph():
                 return
         else:
             offset = '0'
-        window.grab_set()
         result = drawgraph.drawgraph(path, int(col_1), True, int(col_2), int(offset))
-        window.grab_release()
     else:
-        window.grab_set()
         result = drawgraph.drawgraph(path, int(col_1))
-        window.grab_release()
 
     if result[0] is False:
         tkinter.messagebox.showerror('Ошибка!!!', result[1])
