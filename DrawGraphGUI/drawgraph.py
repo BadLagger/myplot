@@ -1,23 +1,31 @@
 import os
 from matplotlib import pyplot
 
-def drawgraph(file_path, col_1_num, second_line = False, col_2_num = 0, col_2_offset = 0):
+def drawgraph(file_path, col_1_num, second_line = False, col_2_num = 0, col_2_offset = 0, nmea=False):
     if os.path.exists(file_path) is False:
         return [False, 'Некорректный путь к файлу или файла не существует!']
 
     array = []
     with open(file_path) as file:
-       line = file.readline().split()
+       line = file.readline()
+
+       line_num = line.split() if nmea is False else line.split(',')
 
        # Проверка выбраной колонки
-       if (( len(line) - 1 ) < col_1_num) or ( len(line) - 1 ) < col_2_num:
+       if (( len(line_num) - 1 ) < col_1_num) or ( len(line_num) - 1 ) < col_2_num:
          return [False, 'Выбрана не существующая колонка']
 
        while line:
-         for i in range( len(line) ):
-           line[i] = float( line[i] )
-         array.append( line )
-         line = file.readline().split()
+         for i in range( len(line_num) ):
+           line_num[i] = line_num[i].strip().strip('\n')
+
+           try:
+               line_num[i] = float( line_num[i] )
+           except Exception as e:
+               line_num[i] = 0
+         array.append( line_num )
+         line = file.readline()
+         line_num = line.split() if nmea is False else line.split(',')
 
     x = list( range( len(array) ) )       # шкала Х равна количеству отсчётов
     y = [ row[col_1_num] for row in array ] # выбор колонки в качестве Y

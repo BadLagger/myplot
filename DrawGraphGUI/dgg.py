@@ -73,6 +73,10 @@ OffsetEntry = tkinter.Entry(window, width=6, textvariable=OffsetEntryString)
 OffsetEntry.place(x=110, y=119)
 OffsetEntry.config(state='disabled')
 ################################
+CheckNmeaFlag = tkinter.IntVar()
+NmeaCheck = tkinter.Checkbutton(window, text="NMEA", variable=CheckNmeaFlag)
+NmeaCheck.place(x=174, y=45)
+
 def ConstructGraph():
     path = PathEntryString.get()
     if len(path) == 0:
@@ -102,17 +106,17 @@ def ConstructGraph():
                 return
         else:
             offset = '0'
-        result = drawgraph.drawgraph(path, int(col_1), True, int(col_2), int(offset))
+        result = drawgraph.drawgraph(path, int(col_1), True, int(col_2), int(offset), nmea=bool(CheckNmeaFlag.get()))
     else:
-        result = drawgraph.drawgraph(path, int(col_1))
+        result = drawgraph.drawgraph(path, int(col_1), nmea=bool(CheckNmeaFlag.get()))
 
     if result[0] is False:
         tkinter.messagebox.showerror('Ошибка!!!', result[1])
     else:
         tkinter.messagebox.showinfo('Успешно', result[1])
 
-ConstructBtn = tkinter.Button(window, text='Построить', height = 5, width = 24, command=ConstructGraph)
-ConstructBtn.place(x=174, y=44)
+ConstructBtn = tkinter.Button(window, text='Построить', height = 3, width = 24, command=ConstructGraph)
+ConstructBtn.place(x=174, y=79)
 ###############################
 
 window.mainloop()
