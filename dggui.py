@@ -1,4 +1,3 @@
-version = 2.0
 import tkinter
 import tkinter.filedialog
 import tkinter.messagebox
@@ -9,7 +8,7 @@ win_height = 150
 size_str = "{}x{}".format(win_width, win_height)
 
 window = tkinter.Tk()
-window.title('DrawGraph ' + str(version))
+window.title('DrawGraph ' + str(drawgraph.version()))
 window.geometry(size_str)
 window.resizable(0, 0)
 window.iconphoto(False, tkinter.PhotoImage(file='dgg.png'))
